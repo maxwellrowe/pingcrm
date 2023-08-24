@@ -6,6 +6,11 @@
 @import 'tailwindcss/components';
 @import 'buttons';
 @import 'form';
+@import 'link';
+@import '../../node_modules/vue-multiselect/dist/vue-multiselect.css';
 
 /* Utilities */
 @import 'tailwindcss/utilities';
+
+/* Datatables */
+@import 'datatables.net-dt';

@@ -7,6 +7,13 @@ use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\OrganizationsController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\LotOccupationsController;
+use App\Http\Controllers\ProjectedOccupationGrowthController;
+use App\Http\Controllers\ProjectedSkillGrowthController;
+use App\Http\Controllers\LightcastAPIController;
+use App\Http\Controllers\SkillsController;
+use App\Http\Controllers\DataExplorers;
+use App\Http\Controllers\SettingsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -133,6 +140,75 @@ Route::put('contacts/{contact}/restore', [ContactsController::class, 'restore'])
 
 Route::get('reports', [ReportsController::class, 'index'])
     ->name('reports')
+    ->middleware('auth');
+
+// Lightcast API
+
+Route::get('lightcast-api', [LightcastAPIController::class, 'index'])
+    ->name('lightcast-api')
+    ->middleware('auth');
+
+// -- Projected Occupation Growth
+Route::get('lightcast-api/projected-occupation-growth', [ProjectedOccupationGrowthController::class, 'show'])
+    ->name('lightcast-api.projected-occupation-growth')
+    ->middleware('auth');
+
+Route::post('lightcast-api/projected-occupation-growth', [ProjectedOccupationGrowthController::class, 'update'])
+    ->name('lightcast-api.projected-occupation-growth.update')
+    ->middleware('auth');
+
+// Projected Skill Growth
+Route::get('lightcast-api/projected-skill-growth', [ProjectedSkillGrowthController::class, 'show'])
+    ->name('lightcast-api.projected-skill-growth')
+    ->middleware('auth');
+
+Route::post('lightcast-api/projected-skill-growth', [ProjectedSkillGrowthController::class, 'update'])
+    ->name('lightcast-api.projected-skill-growth.update')
+    ->middleware('auth');
+
+// Skills
+Route::get('lightcast-api/skills', [SkillsController::class, 'index'])
+    ->name('lightcast-api.skills')
+    ->middleware('auth');
+
+// Classification - LOT Occupations
+Route::get('lightcast-api/lot-occupations', [LotOccupationsController::class, 'index'])
+    ->name('lightcast-api.lot-occupations')
+    ->middleware('auth');
+
+// Data Explorers
+
+Route::get('data-explorers', [DataExplorers::class, 'index'])
+    ->name('data-explorers')
+    ->middleware('auth');
+
+// Settings
+Route::get('settings', [SettingsController::class, 'index'])
+    ->name('settings')
+    ->middleware('auth');
+
+Route::get('settings/lot-occupations', [SettingsController::class, 'lot_occupations_show'])
+    ->name('settings.lot-occupations')
+    ->middleware('auth');
+
+Route::put('settings/lot-occupations', [SettingsController::class, 'lot_occupations_import'])
+    ->name('settings.lot-occupations.lot_occupations_import')
+    ->middleware('auth');
+
+Route::get('settings/skills', [SettingsController::class, 'skills_show'])
+    ->name('settings.skills')
+    ->middleware('auth');
+
+Route::put('settings/skills', [SettingsController::class, 'skills_import'])
+    ->name('settings.skills.skills_import')
+    ->middleware('auth');
+
+Route::get('settings/skill-categories', [SettingsController::class, 'skill_cats_show'])
+    ->name('settings.skill-categories')
+    ->middleware('auth');
+
+Route::put('settings/skill-categories', [SettingsController::class, 'skill_cats_import'])
+    ->name('settings.skill-categories.import')
     ->middleware('auth');
 
 // Images
