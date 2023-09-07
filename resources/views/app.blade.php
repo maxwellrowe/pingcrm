@@ -12,6 +12,18 @@
     {{-- Ping CRM --}}
     <script src="https://polyfill.io/v3/polyfill.min.js?features=String.prototype.startsWith" defer></script>
 
+    {{-- Marker.io --}}
+    <script>
+      window.markerConfig = {
+        project: '64ed06278698fbbbb8c67b16',
+        source: 'snippet'
+      };
+    </script>
+
+    <script>
+    !function(e,r,a){if(!e.__Marker){e.__Marker={};var t=[],n={__cs:t};["show","hide","isVisible","capture","cancelCapture","unload","reload","isExtensionInstalled","setReporter","setCustomData","on","off"].forEach(function(e){n[e]=function(){var r=Array.prototype.slice.call(arguments);r.unshift(e),t.push(r)}}),e.Marker=n;var s=r.createElement("script");s.async=1,s.src="https://edge.marker.io/latest/shim.js";var i=r.getElementsByTagName("script")[0];i.parentNode.insertBefore(s,i)}}(window,document);
+    </script>
+
     <script src="{{ mix('/js/app.js') }}" defer></script>
     @inertiaHead
 </head>

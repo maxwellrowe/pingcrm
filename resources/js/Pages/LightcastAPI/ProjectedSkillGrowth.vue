@@ -35,6 +35,15 @@
     <Notice>
       The following data is returned directly from Lightcast with no manipulation.
     </Notice>
+
+    <div class="py-4">
+      <Line
+        id="my-chart-id"
+        :options="chartOptions"
+        :data="projected_skill_growth_chart"
+      />
+    </div>
+
     <DataTable
       :data="projected_skill_growth_datatables"
       :options="{
@@ -77,6 +86,15 @@
     <Notice>
       The following data is returned directly from Lightcast with no manipulation.
     </Notice>
+
+    <div class="py-4">
+      <Line
+        id="my-chart-id"
+        :options="chartOptions"
+        :data="related_skills_projected_growth_chart"
+      />
+    </div>
+
     <DataTable
       :data="related_skills_projected_growth"
       :options="{
@@ -137,6 +155,31 @@ import 'datatables.net-select'
 
 DataTable.use(DataTablesLib);
 
+// Chart
+import { Line } from 'vue-chartjs'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Colors
+} from 'chart.js'
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Colors
+)
+
 export default {
   components: {
     Head,
@@ -145,7 +188,8 @@ export default {
     LoadingButton,
     VueMultiselect,
     DataTable,
-    Notice
+    Notice,
+    Line
   },
   layout: Layout,
   props: {
@@ -154,8 +198,10 @@ export default {
       default: () => []
     },
     projected_skill_growth: Array,
+    projected_skill_growth_chart: Object,
     projected_skill_growth_datatables: Array,
     related_skills_projected_growth: Array,
+    related_skills_projected_growth_chart: Object,
     projected_skill_growth_id: String,
     related_skills_ids: Array
   },
@@ -166,6 +212,15 @@ export default {
       form: this.$inertia.form({
         skill_id:''
       }),
+      chartOptions: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Skills'
+          }
+        },
+      }
     }
   },
   methods: {

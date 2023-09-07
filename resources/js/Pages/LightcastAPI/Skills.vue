@@ -9,44 +9,67 @@
 
     <p class="leading-loose mb-4">If you would like to update the values stored in the database, you can do so by importing data from Lightcast. To do so go to Settings > Import/ Update Skills.</p>
 
-    <!--<Link class="btn-indigo inline-block" href="/settings/skills">
-      <span>Import/ Update Skills</span>
-    </Link>-->
-
     <div class="bg-white rounded-md shadow overflow-x-auto p-4 mt-8">
 
-      <p>Select a Skill Type below.</p>
+      <div class="bg-white rounded-md shadow p-8 mb-8">
+        <form @submit.prevent="update">
 
-      <!--<DataTable
-        :data="lot_occupations"
-        :options="{
-          dom: 'Blfrtip',
-          buttons: [{
-            extend: 'csv',
-            text: 'Export to CSV',
-            className: 'btn-indigo mb-4',
-          }],
-          lengthMenu: [
-            [50, 100, 250, -1],
-            [50, 100, 250, 'All']
-          ],
-          pageLength: 50,
-          select: true
-        }"
-        :columns="columns"
-        class="display"
-        width="100%"
-      >
-        <thead>
-          <tr>
-            <th>LOT ID</th>
-            <th>Name</th>
-            <th>Dimension</th>
-            <th>Level</th>
-            <th>Level Name</th>
-          </tr>
-        </thead>
-      </DataTable>-->
+            <div>
+              <label class="form-label">Select a Skill Type Below</label>
+              <VueMultiselect
+                v-model="form.skill_type"
+                :multiple="false"
+                :options="skill_types"
+                label="name"
+                track-by="id"
+                placeholder="Select a Type"
+                :close-on-select="true"
+                :clear-on-select="false"
+              >
+              </VueMultiselect>
+            </div>
+
+          <div class="mt-4">
+            <loading-button class="btn-indigo" type="submit">Go</loading-button>
+          </div>
+
+        </form>
+      </div>
+
+      <div v-if="skills">
+        <DataTable
+          :data="skills"
+          :options="{
+            dom: 'Blfrtip',
+            buttons: [{
+              extend: 'csv',
+              text: 'Export to CSV',
+              className: 'btn-indigo mb-4',
+            }],
+            lengthMenu: [
+              [50, 100, 250, -1],
+              [50, 100, 250, 'All']
+            ],
+            pageLength: 50,
+            select: true
+          }"
+          :columns="columns"
+          class="display"
+          width="100%"
+        >
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Subcategory</th>
+              <th>Type ID</th>
+              <th>Type Name</th>
+            </tr>
+          </thead>
+        </DataTable>
+      </div>
     </div>
 
   </div>
@@ -54,7 +77,13 @@
 
 <script>
 import { Head, Link} from '@inertiajs/inertia-vue3'
+import Icon from '@/Shared/Icon'
+import pickBy from 'lodash/pickBy'
 import Layout from '@/Shared/Layout'
+import throttle from 'lodash/throttle'
+import mapValues from 'lodash/mapValues'
+import LoadingButton from '@/Shared/LoadingButton'
+import VueMultiselect from 'vue-multiselect'
 import Notice from '@/Shared/Notice'
 
 // Datatables
@@ -69,14 +98,30 @@ DataTable.use(DataTablesLib);
 export default {
   components: {
     Head,
+    Icon,
     Link,
+    LoadingButton,
+    VueMultiselect,
     DataTable,
-    Notice
+    Notice,
   },
   layout: Layout,
   props: {
     skills: Array,
+    skill_types: Array,
     version: String
+  },
+  data() {
+    return {
+      form: this.$inertia.form({
+        skill_type: ''
+      })
+    }
+  },
+  methods: {
+    update() {
+      this.form.post('/lightcast-api/skills')
+    }
   }
 }
 </script>

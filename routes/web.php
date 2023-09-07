@@ -14,6 +14,7 @@ use App\Http\Controllers\LightcastAPIController;
 use App\Http\Controllers\SkillsController;
 use App\Http\Controllers\DataExplorers;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\AggregateProfilesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -166,9 +167,18 @@ Route::post('lightcast-api/projected-skill-growth', [ProjectedSkillGrowthControl
     ->name('lightcast-api.projected-skill-growth.update')
     ->middleware('auth');
 
+// Aggregate Profiles
+Route::get('lightcast-api/aggregate-profiles', [AggregateProfilesController::class, 'show'])
+    ->name('lightcast-api.aggregate-profiles')
+    ->middleware('auth');
+
 // Skills
 Route::get('lightcast-api/skills', [SkillsController::class, 'index'])
     ->name('lightcast-api.skills')
+    ->middleware('auth');
+
+Route::post('lightcast-api/skills', [SkillsController::class, 'update'])
+    ->name('lightcast-api.skills.update')
     ->middleware('auth');
 
 // Classification - LOT Occupations

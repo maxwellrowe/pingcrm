@@ -277,6 +277,66 @@ class LightcastAuth
             app()->instance('skill_growth_access_key', $accessKeyValueSkillGrowth);
         }
 
+        /**********************
+        Aggregate Profiles API Key
+        **********************/
+        $settingAggregateProfiles = Settings::where('option_name', 'aggregate_profiles_access_key')->first();
+
+        if($settingAggregateProfiles) {
+                $accessKeyValueAggregateProfiles = $settingAggregateProfiles->option_value;
+                $accessKeyUpdatedAggregateProfiles = $settingAggregateProfiles->updated_at;
+
+                // Check if it's been an hour and if so update the key in the DB
+                if ($accessKeyUpdatedAggregateProfiles->lessThan($oneHourAgo)) {
+                        // Get the API Token from Lightcast
+                        $curl = curl_init();
+
+                        curl_setopt_array($curl, [
+                                CURLOPT_URL => "https://auth.emsicloud.com/connect/token",
+                                CURLOPT_RETURNTRANSFER => true,
+                                CURLOPT_ENCODING => "",
+                                CURLOPT_MAXREDIRS => 10,
+                                CURLOPT_TIMEOUT => 30,
+                                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                                CURLOPT_CUSTOMREQUEST => "POST",
+                                CURLOPT_POSTFIELDS => "client_id=$clientId&client_secret=$clientSecret&grant_type=client_credentials&scope=profiles%3Aus",
+                                CURLOPT_HTTPHEADER => [
+                                "content-type: application/x-www-form-urlencoded"
+                                ],
+                        ]);
+
+                        $response = curl_exec($curl);
+                        $err = curl_error($curl);
+
+                        curl_close($curl);
+
+                        if ($err) {
+                                                        //return false;
+                        } else {
+                                $response_arrayAggregateProfiles = json_decode($response);
+                                $accessTokenAggregateProfiles = $response_arrayAggregateProfiles->access_token;
+
+                                // Update the database
+                                $settingAggregateProfiles->updated_at = now();
+                                $settingAggregateProfiles->option_value = $accessTokenAggregateProfiles;
+                                $settingAggregateProfiles->save();
+                        }
+                }
+
+                // Set the value across the app
+                app()->instance('aggregate_profiles_access_key', $accessKeyValueAggregateProfiles);
+        }
+
+
+        // Get Updated Timestamps for Each API Auth
+        app()->instance('skills_growth_access_key_updated', $accessKeyUpdatedSkillGrowth);
+        app()->instance('open_api_access_key_updated', $accessKeyUpdatedOpenApi);
+        app()->instance('classifications_access_key_updated', $accessKeyUpdatedClassifications);
+        app()->instance('projected_occupation_growth_access_key_updated', $accessKeyUpdatedPOG);
+        app()->instance('aggregate_profiles_access_key_updated', $accessKeyUpdatedAggregateProfiles);
+        app()->instance('job-postings-access-key-value_updated', $accessKeyUpdated);
+
+
 
         // After all updated
         return $next($request);

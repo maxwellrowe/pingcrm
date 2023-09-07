@@ -17,7 +17,22 @@ class SettingsController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Settings/Index');
+        $props = [
+            'skill_growth_access_key' => app('skill_growth_access_key'),
+            'skills_growth_access_key_updated' => app('skills_growth_access_key_updated'),
+            'open_api_access_key' => app('open_api_access_key'),
+            'open_api_access_key_updated' => app('open_api_access_key_updated'),
+            'classifications_access_key' => app('classifications_access_key'),
+            'classifications_access_key_updated' => app('classifications_access_key_updated'),
+            'projected_occupation_growth_access_key' => app('projected_occupation_growth_access_key'),
+            'projected_occupation_growth_access_key_updated' => app('projected_occupation_growth_access_key_updated'),
+            'job_postings_access_key_value' => app('job-postings-access-key-value'),
+            'job_postings_access_key_value_updated' => app('job-postings-access-key-value_updated'),
+            'aggregate_profiles_key_updated' => app('aggregate_profiles_access_key_updated'),
+            'aggregate_profiles_key' => app('aggregate_profiles_access_key')
+
+        ];
+        return Inertia::render('Settings/Index', $props);
     }
 
     /*********************

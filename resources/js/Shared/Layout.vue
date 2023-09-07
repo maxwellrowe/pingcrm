@@ -74,4 +74,6 @@ export default {
     auth: Object,
   },
 }
+
+
 </script>

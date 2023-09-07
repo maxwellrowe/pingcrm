@@ -2,6 +2,8 @@
 // Helper functions available globally
 
 use App\Models\Settings;
+use App\Models\SkillCategories;
+use App\Models\Skills;
 use Illuminate\Support\Facades\DB;
 
 // US States -- Get an Array of States
@@ -44,9 +46,18 @@ function global_skills_array($type_id) {
     $skills = DB::table('skills')
         ->where('type_id', $type_id)
         ->orderBy('name')
-        ->get();
+        ->get(['id','name','type_id','description','type_name','category_name','subcategory_name']);
 
     return $skills;
+}
+
+// Get Skill Types
+function global_skill_types() {
+    $skill_types = DB::table('skill_types')
+        ->orderBy('id')
+        ->get(['id','name','description']);
+
+    return $skill_types;
 }
 
 // Get the current version of LOT Occupations based on last import
@@ -69,4 +80,41 @@ function global_current_skill_categories_version() {
     $setting = Settings::where('option_name', 'skill_categories_version')->first();
 
     return $setting->option_value;
+}
+
+// Get Related Skills
+// Related Skills
+function global_related_skills($skill_id) {
+
+    // API Key
+    $apitoken = app('open_api_access_key');
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, [
+      CURLOPT_URL => "https://emsiservices.com/skills/versions/latest/related",
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => "",
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 30,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => "POST",
+      CURLOPT_POSTFIELDS => "{ \"ids\": [ \"$skill_id\" ] }",
+      CURLOPT_HTTPHEADER => [
+        "Authorization: Bearer $apitoken",
+        "Content-Type: application/json"
+      ],
+    ]);
+
+    $response = curl_exec($curl);
+    $err = curl_error($curl);
+
+    curl_close($curl);
+
+    if ($err) {
+      return "cURL Error #:" . $err;
+    } else {
+      $array = json_decode($response);
+      return $array->data;
+    }
 }

@@ -62,12 +62,12 @@
             View projections for LOT Occupations and LOT Specialized Occupations.
           </template>
         </CardLink>
-        <CardLink href="#">
+        <CardLink href="/lightcast-api/aggregate-profiles">
           <template #heading>
             Aggregate Profiles
           </template>
           <template #description>
-            Under Construction
+            This is an interface for retrieving aggregated Lightcast profile data that is filtered, sorted and ranked by various properties of the profiles.
           </template>
         </CardLink>
         <CardLink href="/lightcast-api/projected-skill-growth">

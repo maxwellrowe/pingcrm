@@ -33,8 +33,93 @@
         </template>
       </CardLink>
     </ColumnThree>
+  </div>
+
+  <div class="border-t border-solid mt-4">
+    <h2 class="text-xl pt-8 mb-4 font-bold">Authorization Keys for APIs</h2>
+    <p class="mb-8 leading-normal">Authorization keys last for one hour, then need to be renewed. The following is just for reference. Each API has different authorization keys.</p>
+    <div class="bg-white rounded-md shadow overflow-x-auto">
+      <table class="w-full whitespace-nowrap">
+        <thead>
+          <tr class="text-left font-bold">
+            <th class="pb-4 pt-6 px-6">API</th>
+            <th class="pb-4 pt-6 px-6">Updated</th>
+            <th class="pb-4 pt-6 px-6">Authorization Key</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
+            <td class="border-t pb-4 pt-6 px-6">
+              Classifications API
+            </td>
+            <td class="border-t pb-4 pt-6 px-6">
+              {{ classifications_access_key_updated }}
+            </td>
+            <td class="border-t pb-4 pt-6 px-6">
+              {{ classifications_access_key }}
+            </td>
+          </tr>
+          <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
+            <td class="border-t pb-4 pt-6 px-6">
+              Job Postings API
+            </td>
+            <td class="border-t pb-4 pt-6 px-6">
+              {{ job_postings_access_key_value_updated }}
+            </td>
+            <td class="border-t pb-4 pt-6 px-6">
+              {{ job_postings_access_key_value }}
+            </td>
+          </tr>
+          <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
+            <td class="border-t pb-4 pt-6 px-6">
+              Projected Occupation Growth API
+            </td>
+            <td class="border-t pb-4 pt-6 px-6">
+              {{ projected_occupation_growth_access_key_updated }}
+            </td>
+            <td class="border-t pb-4 pt-6 px-6">
+              {{ projected_occupation_growth_access_key }}
+            </td>
+          </tr>
+          <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
+            <td class="border-t pb-4 pt-6 px-6">
+              Projected Skills Growth API
+            </td>
+            <td class="border-t pb-4 pt-6 px-6">
+              {{ skills_growth_access_key_updated }}
+            </td>
+            <td class="border-t pb-4 pt-6 px-6">
+              {{ skill_growth_access_key }}
+            </td>
+          </tr>
+          <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
+            <td class="border-t pb-4 pt-6 px-6">
+              Aggregate Profiles API
+            </td>
+            <td class="border-t pb-4 pt-6 px-6">
+              {{ open_api_access_key_updated }}
+            </td>
+            <td class="border-t pb-4 pt-6 px-6">
+              {{ open_api_access_key }}
+            </td>
+          </tr>
+          <tr class="hover:bg-gray-100 focus-within:bg-gray-100">
+            <td class="border-t pb-4 pt-6 px-6">
+              Open API
+            </td>
+            <td class="border-t pb-4 pt-6 px-6">
+              {{ aggregate_profiles_key_updated }}
+            </td>
+            <td class="border-t pb-4 pt-6 px-6">
+              {{ aggregate_profiles_key }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
   </div>
+
 </template>
 
 <script>
@@ -48,8 +133,22 @@ export default {
     Head,
     Link,
     CardLink,
-    ColumnThree
+    ColumnThree,
   },
   layout: Layout,
+  props: {
+    'skill_growth_access_key': String,
+    'skills_growth_access_key_updated': Date,
+    'open_api_access_key': String,
+    'open_api_access_key_updated': Date,
+    'classifications_access_key': String,
+    'classifications_access_key_updated': Date,
+    'projected_occupation_growth_access_key': String,
+    'projected_occupation_growth_access_key_updated': Date,
+    'job_postings_access_key_value': String,
+    'job_postings_access_key_value_updated': Date,
+    'aggregate_profiles_key': String,
+    'aggregate_profiles_key_updated': Date
+  }
 }
 </script>

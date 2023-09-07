@@ -14,12 +14,12 @@
           View projections for LOT Occupations and LOT Specialized Occupations.
         </template>
       </CardLink>
-      <CardLink href="/lightcast-api/lot-occupations">
+      <CardLink href="/lightcast-api/aggregate-profiles">
         <template #heading>
-          LOT Occupations
+          Aggregate Profiles
         </template>
         <template #description>
-          View LOT Occupations and Specialized Occupations IDs. This data is stored within the local database.
+          This is an interface for retrieving aggregated Lightcast profile data that is filtered, sorted and ranked by various properties of the profiles.
         </template>
       </CardLink>
       <CardLink href="/lightcast-api/projected-skill-growth">
@@ -36,6 +36,14 @@
         </template>
         <template #description>
           Lightcast's complete collection of skills. This API exposes all of our skills along with their type and unique identifier.
+        </template>
+      </CardLink>
+      <CardLink href="/lightcast-api/lot-occupations">
+        <template #heading>
+          LOT Occupations
+        </template>
+        <template #description>
+          Part of Lightcast's Classification API. View LOT Occupations and Specialized Occupations IDs. This data is stored within the local database.
         </template>
       </CardLink>
     </ColumnThree>
